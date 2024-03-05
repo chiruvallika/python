@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="{{ url_for('static',filename='css/userForm.css') }}"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      id="employeeForm"
+      name="employeeForm"
+      onsubmit="return validate()"
+      action="/submit"
+      method="post"
+    >
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" /><br />
+      <span id="name_err"></span><br /><br />
+      <label for="employeeID">Employee ID:</label>
+      <input type="text" id="employeeID" name="employeeID" /><br />
+      <span id="emp_err"></span><br /><br />
+
+      <label for="position">Position:</label>
+      <input type="text" id="position" name="position" /><br />
+      <span id="pos_err"></span><br /><br />
+
+      <label for="department">Department:</label>
+      <input type="text" id="department" name="department" /><br />
+      <span id="dept_err"></span><br /><br />
+
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" /><br />
+      <span id="email_err"></span><br /><br />
+
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" /><br />
+      <span id="phone_err"></span><br /><br />
+
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address" /><br />
+      <span id="address_err"></span><br /><br />
+
+      <label for="additionalNotes">Additional Notes/Comments:</label><br />
+      <textarea
+        id="additionalNotes"
+        name="additionalNotes"
+        rows="4"
+        cols="40"
+      ></textarea
+      ><br /><br />
+      <button type="submit" value="Submit">Submit</button>
+    </form>
+  </body>
+  <script>
+    function validate() {
+      document.getElementById("name_err").innerHTML = "";
+      document.getElementById("emp_err").innerHTML = "";
+      document.getElementById("pos_err").innerHTML = "";
+      document.getElementById("dept_err").innerHTML = "";
+      document.getElementById("phone_err").innerHTML = "";
+      document.getElementById("email_err").innerHTML = "";
+      document.getElementById("address_err").innerHTML = "";
+      var isValid = true;
+      var name = document.getElementById("name").value;
+      var employeeID = document.getElementById("employeeID").value;
+      var position = document.getElementById("position").value;
+      var department = document.getElementById("department").value;
+      var email = document.getElementById("email").value;
+      var address = document.getElementById("address").value;
+      var phoneNumber = document.getElementById("phoneNumber").value;
+      var validRegex =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const Whitespace = /^\s|\s$/;
+
+      if (name == "" || name == null) {
+        document.getElementById("name_err").innerHTML = "Name cannot be null.";
+        isValid = false;
+      } else if (!isNaN(name) && !Whitespace.test(name)) {
+        document.getElementById("name_err").innerHTML =
+          "Numericals are not allowed.";
+        isValid = false;
+      } else if (Whitespace.test(name)) {
+        document.getElementById("name_err").innerHTML =
+          "Input cannot have leading or trailing whitespace.";
+        isValid = false;
+      }
+      if (employeeID == "" || employeeID == null) {
+        document.getElementById("emp_err").innerHTML =
+          "EmployeeID cannot be null.";
+        isValid = false;
+      } else if (Whitespace.test(employeeID)) {
+        document.getElementById("emp_err").innerHTML =
+          "Input cannot have leading or trailing whitespace.";
+        isValid = false;
+      }
+      if (position == "" || position == null) {
+        document.getElementById("pos_err").innerHTML =
+          "Position cannot be null.";
+        isValid = false;
+      } else if (Whitespace.test(position)) {
+        document.getElementById("pos_err").innerHTML =
+          "Input cannot have leading or trailing whitespace.";
+      }
+      if (department == "" || department == null) {
+        document.getElementById("dept_err").innerHTML =
+          "Department cannot be null.";
+        isValid = false;
+      } else if (Whitespace.test(department)) {
+        document.getElementById("dept_err").innerHTML =
+          "Input cannot have leading or trailing whitespace.";
+        isValid = false;
+      }
+      if (phoneNumber == "" || phoneNumber == null) {
+        document.getElementById("phone_err").innerHTML =
+          "Phone number cannot be null.";
+        isValid = false;
+      } else if (phoneNumber.toString().length != 10) {
+        document.getElementById("phone_err").innerHTML = "Max length is 10.";
+        isValid = false;
+      } else if (Whitespace.test(phoneNumber)) {
+        document.getElementById("phone_err").innerHTML =
+          "Input cannot have leading or trailing whitespace.";
+        isValid = false;
+      }
+      if (email == "" || email == null) {
+        document.getElementById("email_err").innerHTML =
+          "Email cannot be null.";
+        isValid = false;
+      } else if (!email.match(validRegex)) {
+        document.getElementById("email_err").innerHTML = "Not a valid email";
+        isValid = false;
+      }
+      if (address == "" || address == null) {
+        document.getElementById("address_err").innerHTML =
+          "Address cannot be null.";
+        isValid = false;
+      }
+
+      return isValid;
+    }
+  </script>
+</html>

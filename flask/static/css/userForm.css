@@ -1,0 +1,22 @@
+span{
+    color:red;
+    margin-left: 50px;
+}
+form{
+    width: 50%;
+    margin-left : 35%;
+}
+button{
+    margin-left: 18%;
+    width: 80px;
+    height: 30px;
+    border: none;
+}
+/* label {
+    width:150px;
+} */
+
+/* input, label {
+    float:left;
+} */
+

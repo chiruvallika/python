@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div id="employeeList">
+      <h2>Employee List</h2>
+      <div>
+        <select name="table-size" id="table-size">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+        </select>
+      </div>
+      <table id="employeeTable">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Date of Birth</th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTableBody"></tbody>
+      </table>
+      <!-- <div class="pagination" id="pagination">
+        <div id="pagination-btn"></div>
+      </div> -->
+    </div>
+  </body>
+</html>

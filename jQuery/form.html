@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Details Form</title>
+    <link href="style.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="script.js"></script>
+    <!-- <style>
+      input[type="text"] {
+        width: 30%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box;
+      }
+      form {
+        margin-left: 500px;
+      }
+      .error {
+        border: 1px solid red;
+      }
+
+      .error-message {
+        color: red;
+      }
+      #resetBtn {
+        margin-left: 500px;
+        margin-top: 5px;
+      }
+    </style> -->
+  </head>
+  <body>
+    <form id="employeeForm">
+      <h1>Employee Details Form</h1>
+
+      <label for="empID">Employee ID:</label><br />
+      <input type="text" id="empID" name="empID" /><br />
+
+      <label for="empName">Name:</label><br />
+      <input type="text" id="empName" name="empName" /><br />
+
+      <label for="empPosition">Position:</label><br />
+      <input type="text" id="empPosition" name="empPosition" /><br />
+
+      <label for="empDepartment">Department:</label><br />
+      <input type="text" id="empDepartment" name="empDepartment" /><br />
+
+      <label for="empEmail">Email:</label><br />
+      <input type="text" id="empEmail" name="empEmail" /><br />
+
+      <label for="empPhone">Phone:</label><br />
+      <input type="text" id="empPhone" name="empPhone" /><br />
+
+      <label for="empAddress">Address:</label><br />
+      <input type="text" id="empAddress" name="empAddress" /><br />
+
+      <label for="empDOB">Date of Birth:</label><br />
+      <input type="text" id="empDOB" name="empDOB" /><br />
+
+      <label for="empSalary">Salary:</label><br />
+      <input type="text" id="empSalary" name="empSalary" /><br />
+
+      <button type="submit" id="submit-btn">Submit</button>
+    </form>
+    <button id="resetBtn">Reset</button>
+
+    <div id="employeeList">
+      <h2>Employee List</h2>
+      <div>
+        <span>No of Records per page:</span>
+        <select name="table-size" id="table-size">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+          <option value="25">25</option>
+        </select>
+      </div>
+      <br />
+      <table id="employeeTable" border="1">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Date of Birth</th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTableBody"></tbody>
+      </table>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </body>
+</html>

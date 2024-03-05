@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="form.js"></script>
+  </head>
+
+  <body>
+    <div
+      style="margin-top: 60px; padding: 10px; width: 300px; margin-left: 500px"
+    >
+      <form method="post">
+        <label> Full Name: </label><br />
+        <input type="text" id="name" /><br /><br />
+        <span id="name_error"></span>
+        <label> Email: </label><br />
+        <input type="text" id="email" /><br /><br />
+        <span id="email_error"></span>
+        <label> Phone: </label><br />
+        <input type="number" id="number" /><br /><br />
+        <span id="phone_error"></span>
+        <label> Password: </label><br />
+        <input type="text" id="password" /><br /><br />
+        <label> Confirm password: </label><br />
+        <input type="text" id="conformpassword" /><br /><br />
+        <span id="mismatch_error"></span>
+        <div>
+          <input type="submit" value="submit" />
+
+          <button onclick="resetClick(e)">Reset</button>
+        </div>
+      </form>
+      <div>
+        <p id="user_name"></p>
+        <p id="user_email"></p>
+        <p id="user_phone"></p>
+      </div>
+    </div>
+  </body>
+</html>

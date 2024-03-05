@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <!-- <link rel="stylesheet" href="form.css"> -->
+
+  <body>
+    <table
+      border="1"
+      cellpadding="10"
+      style="margin-left: 350px; margin-top: 200px"
+    >
+      <tr>
+        {% for value in s %}
+
+        <td>{{ value }}</td>
+
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for value in ol %} {% for v in value %}
+        <td>{{ v }}</td>
+        {% endfor %} {% endfor %}
+        <td><button>Edit</button></td>
+        <td><button>Delete</button></td>
+      </tr>
+    </table>
+  </body>
+</html>

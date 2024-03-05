@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <th>Index</th>
+        <th>Name</th>
+        <th>Employee ID</th>
+        <th>Position</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+      </tr>
+      {% for index, data in user_data.items() %}
+      <tr>
+        <td>{{ data['index'] }}</td>
+        <td>{{ data['name'] }}</td>
+        <td>{{ data['employeeID'] }}</td>
+        <td>{{ data['position'] }}</td>
+        <td>{{ data['department'] }}</td>
+        <td>{{ data['email'] }}</td>
+        <td>{{ data['phoneNumber'] }}</td>
+        <td>{{ data['address'] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

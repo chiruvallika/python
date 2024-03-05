@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="form.js"></script>
+    <link rel="stylesheet" href="form.css" />
+  </head>
+  <body>
+    <form
+      onsubmit="return validate(event)"
+      method="post"
+      style="margin-left: 500px"
+    >
+      <h2 style="margin-left: 60px">Employee Form</h2>
+      <label> Name:</label>
+      <input type="text" name="name" id="name" />
+      <br /><span id="name_error"></span><br /><br />
+      <label> Email:</label>
+      <input name="email" id="email" type="email" />
+      <br /><span id="email_error"></span><br /><br />
+      <label> Phone:</label>
+      <input type="number" name="phone" id="phone" />
+      <br /><span id="phone_error"></span><br /><br />
+
+      <label> Password:</label>
+      <input type="text" name="password" id="password" />
+      <br /><span id="password_error"></span><br /><br />
+      <label> Confirm password: </label>
+      <input
+        type="text"
+        name="confirmpassword"
+        id="confirmpassword"
+      /><br /><br />
+      <span id="confpassword_error"></span><br /><br />
+      <span id="mismatch_error"></span><br /><br />
+      <button type="submit" style="margin-left: 100px">Submit</button>
+      <button id="reset_button" onclick="resetClick()">Reset</button>
+    </form>
+    <div>
+      <p id="user_name"></p>
+      <p id="user_email"></p>
+      <p id="user_phone"></p>
+    </div>
+  </body>
+</html>
