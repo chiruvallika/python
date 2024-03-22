@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee form</title>
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <script src="../static/js/script.js"></script>
+</head>
+<body>
+    <div id="main_div">
+        <form id="emp_form" onsubmit="return validate()" method="post">
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name" /><br/>
+            <span id="name_err"></span><br/>
+            <label for="email_err">Email: </label>
+            <input type="text" id="email" name="email" /><br/>
+            <span id="email_err"></span><br/>
+            <label for="password">password: </label>
+            <input type="password" id="password" name="password" /><br/>
+            <span id="password_err"></span><br/>
+            <label for="gender">Gender: </label>
+            <label for="gender"><input type="radio" name="gender" id="male" />Male</label>
+            <label for="gender"><input type="radio" name="gender" id="female" />Female</label><br/>
+            <span id="gender_err"></span><br/>
+            <label for="languages">Languages: </label>
+            <label><input type="checkbox" id="english" name="languages" value="english"/>English</label>
+            <label><input type="checkbox" id="telugu" name="languages" value="telugu"/>Telugu</label>
+            <label><input type="checkbox" id="hindi" name="languages" value="hindi"/>Hindi</label><br/>
+            <span id="languages_err"></span><br/>
+            <label for="courses">Course completed: </label>
+            <select name="courses" id="courses">
+                <option value="">--Please choose an option--</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value=".net">.Net</option>
+                <option value="sql">Sql</option>
+                <option value="jquery">Jquery</option>
+                <option value="php">Php</option>
+            </select><br/>
+            <span id="courses_err"></span><br/>
+            <input type="file" id="img" name="img" accept="image/*"><br/>
+            <span id="img_err"></span><br/>
+            <label for="comments">Comments: </label><br/>
+            <textarea id="comments" name="comments" placeholder="Enter text here..."></textarea><br/><br/>
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </form>
+    </div>
+    
+</body>
+</html>  

@@ -1,0 +1,191 @@
+// var hiddenArrow = null;
+      // function toggleSort(clickedArrowId,column){
+      //   column=column;
+      //   console.log(column)
+      //   loadData(1)
+      // }
+      // function toggleArrow(clickedArrowId) {
+      //     console.log("ok");
+      //     var upArrow = $(this).find("#triangle-up").attr('id');
+      //     var downArrow = $(this).find("#triangle-down").attr('id');
+      //     $("#data-table th div#table-heading").on("click", function (){
+      //         console.log("column cdjdbcjh")
+      //         column = $(this).find("div").text().toLowerCase();
+      //         toggleSort(clickedArrowId,column)
+      //         console.log(column)
+      //     });
+          // var column = $(this).find(".table-heading div").text().toLowerCase();
+          // var column = clickedArrowId.closest("th").find(".table-heading > div").text().toLowerCase();
+          // console.log(upArrow)
+          // if (clickedArrowId=== 'triangle-up') {
+          //     $("#triangle-up").addClass("hidden");
+          //     $("#triangle-down").removeClass("hidden");
+          // } else {
+          //     $("#triangle-down").addClass("hidden");
+          //     $("#triangle-up").removeClass("hidden");
+                  
+          // }
+          // toggleSort(column,clickedArrowId);
+      // }
+      // $("#triangle-up").on("click", function(event) {
+      //     console.log("up clicked");
+      //     var clickedArrowId = 'triangle-up';
+      //     toggleArrow(clickedArrowId);
+      // });
+      // $("#triangle-down").on("click", function(event) {
+      //     console.log("down clicked");
+      //     var clickedArrowId = 'triangle-down';
+      //     toggleArrow(clickedArrowId);
+      // });
+
+
+
+
+
+
+    //   updateNewPagination();
+    //   function paginationButtonClick(){
+    //   alert("hi")
+    // }
+    // function updateNewPagination(){
+
+    //   for(var i=1;i<=total_pages;i++){
+    //     var r = $('<input/>').attr({
+    //             type: "button",
+    //             id: i,
+    //             value: i,
+    //             onclick: "paginationButtonClick("+i+")"
+    //         });
+    //         $('#paginationData').append(r)
+    //   }
+    // }
+
+
+
+
+
+
+
+        //   var tableHeading ={
+    //     "id": "id",
+    //     "username": "username",
+    //     "gender":"gender",
+    //     "contact":"contact",
+    //     "email":"email",
+    //     "languages":"languages",
+    //     "operaions":"operations"
+    //   }
+    //   var tableHeadingElements = document.querySelector('table thead tr')
+    //   $.each(tableHeading, function(key, val){
+    //     var thElement = document.createElement('th');
+    //     thElement.textContent = val;
+    //     tableHeadingElements.appendChild(thElement);
+    //   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#triangle-down").on("click", function () {
+        alert("down"); 
+    });
+    $("#triangle-up").on("click", function () {
+        alert("upp");
+        
+    });
+});
+</script>
+<style>
+#triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+</style>
+</head>
+<body>
+ <table border="1" id="data-table">
+<thead>
+            <tr>
+              <th>
+                <div id="table-heading">
+                    <div>Id</div>
+                    <i id="triangle-down"></i>
+                    <i id="triangle-up"></i>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Username</div>
+                    <i id="triangle-down"></i>
+                    <i id="triangle-up"></i>
+                </div>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Gender</div>
+                    <i id="gender-triangle-down"></i>
+                    <i id="gender-triangle-up"></i>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Contact</div>
+                    <i id="contact-triangle-down"></i>
+                    <i id="contact-triangle-up"></i>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Email</div>
+                    <div style="display: flex;">
+                      <i id="email-triangle-down"></i>
+                      <i id="email-triangle-up"></i>
+                    </div>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Languages</div>
+                    <i id="languages-triangle-down"></i>
+                    <i id="languages-triangle-up"></i>
+                </div>
+              </th>
+              <th>
+                <div id="table-heading">
+                    <div>Operations</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+</body>
+</html>

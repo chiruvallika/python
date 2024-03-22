@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link href="../static/css/style.css" rel="stylesheet"/> -->
+    <style>
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            width: 400px; 
+            max-width: 90%; 
+            height: 280px; 
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-content {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        label{
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        span{
+            color:black;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #807e7e;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 150px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #a7a1a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div>
+                    <h2>User Details</h2>
+                    <label>Id:</label>
+                    <span>{{rowData.id}}</span><br/>
+                    <label>Username:</label>
+                    <span>{{rowData.username}}</span><br/>
+                    <label>Gender:</label>
+                    <span>{{rowData.gender}}</span><br/>
+                    <label>Contact:</label>
+                    <span>{{rowData.contact}}</span><br/>
+                    <label>Email:</label>
+                    <span>{{rowData.email}}</span><br/>
+                    <label>Languages:</label>
+                    <span>{{rowData.languages}}</span>
+                </div> 
+            </div>
+        </div>
+        <button onclick="window.location.href='http://127.0.0.1:5000/viewTableData'">Close</button>
+    </div>
+    
+ 
+</body>
+</html>

@@ -1,0 +1,28 @@
+form{
+    margin-left: 500px;
+    margin-top: 100px;
+}
+span{
+    color:red;
+    margin-left: 30px;
+}
+
+table{
+    width: 70%;
+    margin: 2px auto;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #252121;
+    color: white;
+}
+button{
+    border-color: 2px black;
+    background-color: none;
+}

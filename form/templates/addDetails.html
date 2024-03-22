@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../static/js/addDetailsValidate.js"></script>
+    <!-- <script src="../static/js/empFormValidate.js"></script> -->
+    <link href="../static/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <form onsubmit="return validate()" method="post" action="/addOtherDetails" id="form2" name="form2">
+        <label for="name">Name: </label>
+        <input type="text" name="name" placeholder="Enter your name" id="name" value="{{data.username}}"/><br />
+        <span id="name_err"></span><br/>
+        <label>Gender: </label>
+        <input type="radio" name="gender" id="male" value="male" {% if data.gender == 'male' %}checked{% endif %} checked/>
+        <label for="male">Male</label>
+        <input type="radio" name="gender" id="female" value="female" {% if data.gender == 'female' %}checked{% endif %} />
+        <label for="female">Female</label><br/>
+        <span id="gender_err"></span><br/>
+        <label for="contact">Contact: </label>
+        <input type="number" name="contact" id="contact" placeholder="Enter your number" value="{{data.contact}}"/><br />
+        <span id="contact_err"></span><br/>
+        <label for="email">Email: </label>
+        <input type="text" name="email" id="email" value="{{data.email}}"/><br/>
+        <span id="email_err"></span><br/>
+        <label>Languages: </label>
+        <label><input type="checkbox"  name="language" value="english" {% if data and 'english' in data[5].split(',') %}checked{% endif %}/>English</label>
+        <label><input type="checkbox"  name="language" value="telugu" {% if data and 'telugu' in data[5].split(',') %}checked{% endif %}/>Telugu</label>
+        <label><input type="checkbox" name="language" value="hindi" {% if data and 'hindi' in data[5].split(',') %}checked{% endif %}/>Hindi</label><br/>
+        <span id="languages_err"></span><br/>
+        <input type="hidden" name="update" value='{{ data.id }}' />
+        <button type="submit">Submit</button>
+        <button onclick="window.location.href='http://127.0.0.1:5000/viewFormData'">Cancel</button>
+    </form>
+</body>
+</html>

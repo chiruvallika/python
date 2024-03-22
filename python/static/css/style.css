@@ -1,0 +1,21 @@
+form {
+    max-width: 100%; 
+    margin-left: 500px;
+    margin-top: 80px;
+}
+
+span{
+    color:red;
+    margin-left: 50px;
+}
+
+/* label {
+    width:180px;
+    clear:left;
+    text-align:left;
+    padding-right:10px;
+}
+
+input, label {
+    float:left;
+} */

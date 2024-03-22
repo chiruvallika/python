@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Form</title>
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+</head>
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .page_info {
+        color: black;
+    }
+
+    .sort-icon {
+        margin-left: 5px;
+    }
+</style>
+<body>
+    <div style="display: flex; align-items: center; height: 40px; margin: 20px; ">
+        <h2 style="margin-right: auto;">Employee Details</h2>
+        <input type="search" id="searchData" name="searchData" placeholder="Search..." style="margin-right: 400px;">
+        
+        <button onclick="window.location.href='http://127.0.0.1:5000/addDetails'" style="margin-right: 10px;">Add other details</button>
+    <!-- <a href="/download/report/csv" download="employee_report.csv"><button>Download CSV</button></a> -->
+        <a href="#" id="downloadData" download="employee_data.csv"><button>Download CSV</button></a>
+    </div>
+    <!-- <form method="post" action="/download/report/csv" style="background-color: red;float: right;margin-top: -10px;margin-right: 35px;border-radius: 10px;">
+        <button type="submit">Export to CSV</button>
+    </form>  -->
+<table border="1" id="data-table">
+    <thead>
+        <tr>
+            <th>
+                <div class="table-heading" data-column="id">Id <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div class="table-heading" data-column="username">Username <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div class="table-heading" data-column="gender">Gender <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div class="table-heading" data-column="contact">Contact <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div class="table-heading" data-column="email">Email <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div class="table-heading" data-column="languages">Languages <i class="fas fa-sort sort-icon" data-order=""></i></div>
+            </th>
+            <th>
+                <div>Operations</div>
+            </th>
+        </tr>
+        </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<br />
+<div style="display: flex; ">
+    <div id="pagination" style="display: flex; height: 40px; margin-left: 370px">
+        <button id="previousPage">Previous</button>
+        <p id="pageInfo" style="margin: 20px"></p>
+        <button id="nextPage">Next</button>
+    </div>
+    <div style="margin-top: 12px; margin-left: 20px">
+        <label>Items per page:</label>
+        <select name="items_per_page" id="items_per_page">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+        <br /><br />
+    </div>
+    <div style="margin-left: 180px;">
+        <p id="totalRecords"></p>
+    </div>
+</div>
+<div id="new_pagination">
+    <p id="paginationData" style="margin: 20px"></p>
+</div>
+</body>
+<script>
+    $(document).ready(function () {
+
+        var currentPage = 1;
+        var total_pages = 0;
+        var items_per_page = 5;
+        var sortColumn = "";
+        var sortOrder = "";
+
+        function loadData(page) {
+            var search = $("#searchData").val();
+            $.ajax({
+                url: "/get_data",
+                type: "POST",
+                data: { page: page, search: search, items_per_page: items_per_page, sortColumn: sortColumn, sortOrder: sortOrder },
+                success: function (response) {
+                    var tableBody = $("#data-table tbody");
+                    tableBody.empty();
+                    response.data.forEach(function (row) {
+                        var newRow = '<tr>' +
+                            '<td>' + row.id + '</td>' +
+                            '<td>' + row.username + '</td>' +
+                            '<td>' + row.gender + '</td>' +
+                            '<td>' + row.contact + '</td>' +
+                            '<td>' + (row.email ? row.email : '') + '</td>' +
+                            '<td>' + (row.languages ? row.languages : '') + '</td>'+
+                                '<td style="display: flex;">' +
+                            '<form action="/editData" method="POST" style="margin: 4px;">' +
+                            '<input type="hidden" name="edit_id" value="' + row.id + '" />' +
+                            '<input type="hidden" name="email_val" value="' + (row.email ? row.email : '') + '" />' +
+                            '<button type="submit">Edit</button>' +
+                            '</form>' +
+                            '<form action="/deleteData" method="POST" style="margin: 4px;">' +
+                            '<input type="hidden" name="del_id" value="' + row.id + '" />' +
+                            '<button type="submit">Delete</button>' +
+                            '</form>' +
+                            '<form action="/viewRowData" method="POST" style="margin: 4px;">' +
+                            '<input type="hidden" name="viewrow_id" value="' + row.id + '" />' +
+                            '<button type="submit">View</button>' +
+                            '</form>' +
+                            '</td>' +
+                            '</tr>';
+                        tableBody.append(newRow);
+                    });
+
+                    currentPage = page;
+                    total_pages = Math.ceil(response.total_rows / items_per_page);
+                    updatePaginationInfo();
+                    updateTotalRecords(response.total_rows);
+
+                    if (currentPage == 1) {
+                        $("#previousPage").prop("disabled", true).addClass("disabled");
+                    } else {
+                        $("#previousPage")
+                            .prop("disabled", false)
+                            .removeClass("disabled");
+                    }
+                   
+                    if (currentPage == total_pages) {
+                        console.log("button disabled");
+                        $("#nextPage").prop("disabled", true).addClass("disabled");
+                    } else {
+                        $("#nextPage").prop("disabled", false).removeClass("disabled");
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                },
+            });
+        }
+
+        function updateTotalRecords(e) {
+            if (items_per_page < e && (currentPage*items_per_page)<e) {
+                $("#totalRecords").text("Showing " + currentPage*items_per_page + " of " + e);
+            } else {
+                $("#totalRecords").text("Showing " + e + " of " + e);
+            }
+        }
+
+        function updatePaginationInfo() {
+
+            $("#pageInfo").text("Page " + currentPage + " of " + total_pages);
+        }
+
+        $("#previousPage").on("click", function () {
+            if (currentPage > 1) {
+                loadData(currentPage - 1);
+            }
+        });
+
+        $("#nextPage").on("click", function () {
+            if (currentPage < total_pages) {
+                loadData(currentPage + 1);
+            }
+        });
+
+        $("#searchData").on("keypress", function (e) {
+            if (e.which == 13) {
+                loadData(1);
+            }
+        });
+
+        $("#items_per_page").on("change", function () {
+            items_per_page = $(this).val();
+            loadData(1);
+        });
+
+        $(".sort-icon").on("click", function () {
+            var column = $(this).closest("th").find(".table-heading").data("column");
+
+            if (sortOrder === '') {
+ 
+                sortOrder = 'desc';
+
+                $(this).removeClass('fa-sort-down').addClass('fa-sort-up');
+            } else {
+                sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
+
+                $(this).toggleClass('fa-sort-up fa-sort-down');
+            }
+            console.log(column);
+            console.log(sortOrder);
+            $(this).closest("th").siblings("th").find(".sort-icon").removeClass('fa-sort-up fa-sort-down').data('order', '');
+
+            toggleSort(column, sortOrder);
+        });
+        $('#downloadData').on('click',function(){
+            downloadUrl = '/download/csv/'+currentPage+'/'+items_per_page;
+            $(this).attr('href',downloadUrl);
+        })
+
+        function toggleSort(column, order) {
+            sortColumn = column;
+            sortOrder = order;
+            loadData(1);
+        }
+
+        loadData(currentPage);
+    });
+</script>
+</html>

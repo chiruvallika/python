@@ -1,0 +1,142 @@
+form{
+    margin-left: 500px;
+    margin-top: 100px;
+}
+span{
+    color:red;
+    margin-left: 30px;
+}
+
+table{
+    width: 70%;
+    margin: 2px auto;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #807e7e;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+button:hover {
+    background-color: #a7a1a1;
+}
+
+input[type="search"]{
+    border-radius: 100px;
+    border: none;
+    background-color: #ddd;
+    padding: 10px;
+    width: 300px;
+}
+#nextPage:disabled {
+    background-color: #ccc;
+    color: #999; 
+    cursor: not-allowed; 
+}
+#previousPage:disabled{
+    background-color: #ccc;
+    color: #999; 
+    cursor: not-allowed; 
+}
+#id-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#id-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#gender-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#gender-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#username-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#username-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#contact-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#contact-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#email-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#email-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#languages-triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 14px solid #555;
+}
+#languages-triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-bottom: 14px solid #555;
+}
+#table-heading{
+    display: flex;
+    justify-content: space-between;
+}

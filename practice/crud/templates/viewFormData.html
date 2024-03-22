@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../static/css/style.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+</head>
+<body>
+    <div style="display: flex;justify-content: space-between;margin: 20px;">
+        <input type="search" placeholder="search..." id="searchData" name="searchData"/>
+        <div>
+            <button onclick="window.location.href='http://127.0.0.1:5001/'">Add more details</button>
+            <a href="#" download="emp_data.csv" id="downloadCSV"><button>Download CSV</button></a>
+        </div>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    <div class="table-heading" data-column="id">Id
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-heading" data-column="username">Username
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-heading" data-column="gender">Gender
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-heading" data-column="contact">Contact
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-heading" data-column="email">Email
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>
+                    <div class="table-heading" data-column="languages">Languages
+                        <i class="fas fa-sort sort-icon" data-order=""></i>
+                    </div>
+                </th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+    <div>
+        <div style="display: flex;height: 30px;margin-left: 500px;margin-top: 20px;">
+            <button id="prevBtn">Prev</button>
+            <p id="pageInfo"></p>
+            <button id="nextBtn">Next</button>
+            <div>Items per page
+                <select name="itemsPerPage" id="itemsPerPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            <p id="totalRecords"></p>
+        </div>
+        
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+            var sortOrder = "";
+            var sortColumn = "";
+            var search = "";
+            var itemsPerPage = 5;
+            var currPage = 1;
+            function get_database_data(currPage){
+                $.ajax({
+                url: '/get_database_data',
+                type: 'POST',
+                data: {
+                    sort: sortColumn,
+                    order: sortOrder,
+                    search: search,
+                    pageInfo: currPage,
+                    itemsPerPage:itemsPerPage
+                },
+                
+                success: function(response){
+                    $('tbody').empty();
+                    response.data.forEach(function(row){
+                        var html = `
+                        <tr>
+                            <td>${row.id}</td>
+                            <td>${row.username}</td>
+                            <td>${row.gender}</td>
+                            <td>${row.contact}</td>
+                            <td>${row.email}</td>
+                            <td>${row.languages}</td>
+                            <td>
+                                <button onclick="editRow(${row.id})">Edit</button>
+                                <button onclick="deleteRow(${row.id})">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                    $('tbody').append(html);
+                    });
+                    totalPages = Math.ceil(response.total_rows/itemsPerPage);
+                    updatePageInfo();
+                    updateTotalRecords(response.total_rows);
+                    console.log("curr page")
+                    console.log(currPage)
+                    if(currPage==1){
+                        $('#prevBtn').prop('disabled',true).addClass('disable');
+                    }
+                    else{
+                        $('#prevBtn').prop('disabled',false).removeClass('disable')
+                    }
+                    if(currPage==totalPages){
+                    $('#nextBtn').prop('disabled',true).addClass('disable');
+                }
+                else{
+                    $('#nextBtn').prop('disabled',false).removeClass('disable');
+                }
+                },
+                error: function(xhr, status, error) {
+                console.error(xhr, status, error);
+                }
+            })
+        }
+        get_database_data(1);
+        window.deleteRow = function(id){
+            $.ajax({
+                url:'/deleteData',
+                type:'POST',
+                data:{del_id:id},
+                success:function(response){
+                    get_database_data();
+                },
+                error:function(xhr,status,error){
+                    console.log(xhr,status,error);
+                }
+            })
+        }
+        window.editRow = function(id){
+            window.location.href = '/edit/' + id;
+        }
+
+        $(".sort-icon").on("click", function () {
+            var column = $(this).closest("th").find(".table-heading").data("column");
+            if(sortColumn!=column){
+                sortOrder = '';
+            }
+            if (sortOrder === '') {
+                sortOrder = 'desc';      
+                $(this).removeClass('fa-sort-down').addClass('fa-sort-up');
+            } else {
+                sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
+                $(this).toggleClass('fa-sort-up fa-sort-down');
+            }
+            sortColumn = column;
+            get_database_data();
+            $(this).closest("th").siblings("th").find(".sort-icon").removeClass('fa-sort-up fa-sort-down').data('order', '');
+
+        });
+        $("#searchData").on("keypress", function (e) {
+            search = $('#searchData').val();
+            if (e.which == 13) {
+                get_database_data(1);
+            }
+        });
+        $('#prevBtn').on('click',function(){
+            if(currPage>1){
+                currPage = currPage - 1;
+                get_database_data(currPage);
+            }
+        })
+        function updatePageInfo(){
+            $('#pageInfo').text('Page '+currPage+' of '+totalPages);
+        }
+        $('#nextBtn').on('click',function(){
+            console.log("next btn")
+            console.log(totalPages)
+            if(currPage<totalPages){
+                currPage = currPage + 1;
+                get_database_data(currPage);
+                console.log(currPage)
+            }
+        })
+        $('#itemsPerPage').on('click',function(){
+            itemsPerPage = $(this).val();
+            get_database_data(1);
+        })
+        function updateTotalRecords(total_rows){
+            if((currPage*itemsPerPage)<=total_rows){
+                $('#totalRecords').text('Showing '+(currPage*itemsPerPage)+' of '+total_rows)
+            }
+            else{
+                $('#totalRecords').text('Showing '+(total_rows)+' of '+total_rows)
+
+            }
+        }
+        $('#downloadCSV').on('click',function(){
+            downloadUrl = '/download/csv/'+currPage+'/'+itemsPerPage;
+            console.log(downloadUrl)
+            $(this).attr('href',downloadUrl)
+        })
+
+
+    })
+</script>
+</html>

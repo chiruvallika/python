@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <script src="../static/js/empFormValidate.js"></script>
+</head>
+<body>
+    <form onsubmit="return validate()" method="post" action="/submit">
+        <label for="name">Name: </label>
+        <input type="text" name="name" placeholder="Enter your name" id="name" value="{{data.username}}"/><br />
+        <span id="name_err"></span><br/>
+        <label>Gender: </label>
+        <input type="radio" name="gender" id="male" value="male" {% if data.gender == 'male' %}checked{% endif %} checked/>
+        <label for="male">Male</label>
+        <input type="radio" name="gender" id="female" value="female" {% if data.gender == 'female' %}checked{% endif %} />
+        <label for="female">Female</label><br/>
+        <span id="gender_err"></span><br/>
+        <label for="contact">Contact: </label>
+        <input type="number" name="contact" id="contact" placeholder="Enter your number" value="{{data.contact}}"/><br />
+        <span id="contact_err"></span><br/>
+        <input type="hidden" name="update" value='{{ data.id }}' />
+        <button type="submit">Submit</button>
+        <button onclick="window.location.href='http://127.0.0.1:5000/viewFormData'">Cancel</button>
+        <!-- <button type="submit">Submit</button> -->
+    </form>
+</body>
+</html>

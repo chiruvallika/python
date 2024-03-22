@@ -1,0 +1,87 @@
+drop table customers;
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    address VARCHAR(255),
+    city VARCHAR(100),
+    country VARCHAR(100)
+);
+
+INSERT INTO customers (customer_id, name, email, phone, address, city, country)
+VALUES 
+(1, 'Chiruvallika', 'Chiruvallika@gmail.com', '123456789', 'Main Street', 'Hyd', 'USA'),
+(2, 'Kavya', 'Kavya@gmail.com', '987654321', 'Oak Street', 'Khm', 'Canada'),
+(3, 'Sravani', 'sravani@gmail.com', '456123789', 'Elm Street', 'secunderabad', 'UK'),
+(4, 'geethika', 'geethika@gmail.com', '789456123', 'Pine Street', 'kphb', 'Australia'),
+(5, 'supraja', 'supraja@gmail.com', '654987321', 'Cedar Street', 'ameerpet', 'Germany');
+
+drop table orders;
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10, 2),
+    
+);
+
+INSERT INTO orders (order_id, customer_id, order_date, total_amount)
+VALUES 
+(101, 1, '2024-03-11', 100.50),
+(102, 2, '2024-03-10', 75.25),
+(103, 3, '2024-03-09', 200.00),
+(104, 4, '2024-03-08', 150.75),
+(105, 5, '2024-03-07', 300.50),
+(106, 6, '2024-04-08', 150.75),
+(107, 7, '2024-04-07', 300.50);
+
+SELECT * FROM customers;
+
+
+SELECT * FROM orders;
+
+
+UPDATE customers SET email = 'chiru@example.com' WHERE customer_id = 1;
+
+
+DELETE FROM orders WHERE order_id = 1;
+
+SELECT c.name, o.order_date, o.total_amount
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id;
+
+-- Using a subquery to calculate total spent
+SELECT customer_id, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY customer_id
+HAVING SUM(total_amount) > 100
+ORDER BY total_spent DESC;
+
+
+
+UPDATE orders SET total_amount = 150.00 WHERE order_id = 102;
+
+
+DELETE FROM customers WHERE customer_id = 1;
+
+update orders set customer_id=7 where order_id=105;
+
+SELECT c.name, o.order_date, o.total_amount
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id;
+
+SELECT c.name, o.order_date, o.total_amount
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id;
+
+SELECT c.name, o.order_date, o.total_amount
+FROM customers c
+RIGHT JOIN orders o ON c.customer_id = o.customer_id;
+
+SELECT c.name, o.order_date, o.total_amount
+FROM customers c
+FULL JOIN orders o ON c.customer_id = o.customer_id;
+
+
