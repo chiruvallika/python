@@ -1,0 +1,153 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Employee Data</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link href="../static/css/style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div id="data-container">
+            <button onclick="window.location.href='http://127.0.0.1:5000/'" style="float: right;margin: 10px;">Add more details</button>
+            <table id="employee-table">
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Employee Name</th>
+                        <th>Mobile Number</th>
+                        <th>Designation</th>
+                        <th>Operations</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="employee-data">
+                   
+                </tbody>
+            </table>
+        </div>
+        <div id="pagination-controls">
+            <div>
+                <button id="prev-btn">Previous</button>
+                <span id="page-info" style="color: black;"></span>
+                <button id="next-btn">Next</button>
+            </div>
+            <div id="items-per-page">
+                <label>Items per page: </label>
+                <select id="page-size-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </div>
+
+        <script>
+            function deleteEmployee(delId){
+                    $.ajax({
+                        url:'/delete_data',
+                        type: 'POST',
+                        data:{
+                            del_id:delId,
+                        },
+                        success:function(){
+                            console.log('deleted');
+                        }
+                    })
+                }
+            // function editEmployee(empId, accId, desId){
+            //     $.ajax({
+            //         url:'/',
+            //         type:'post',
+            //         data:{
+            //             emp_id:empId,
+            //             acc_id: accId,
+            //             des_id: desId
+            //         },
+            //         success: function(){
+            //             console.log('edited');
+            //             // window.location.href = '/';
+            //         }
+            //     })
+            // }
+            $(document).ready(function() {
+                var currentPage = 1;
+                var pageSize = 5; 
+                var totalRecords; 
+
+                function fetchData(page, pageSize) {
+                    $.ajax({
+                        url: '/get_database_data',
+                        type: 'GET',
+                        data: { page: page, page_size: pageSize },
+                        success: function(response) {
+                            var employeeData = response.data;
+                            console.log(employeeData);
+                            var html = '';
+                            for (var i = 0; i < employeeData.length; i++) {
+                                html += `<tr>
+                                            <td>${employeeData[i].acc_name}</td>
+                                            <td>${employeeData[i].emp_name}</td>
+                                            <td>${employeeData[i].mobile_number}</td>
+                                            <td>${employeeData[i].designation}</td>
+                                            <td><button class="edit-btn" data-id="${employeeData[i].emp_id}" data-acc-id="${employeeData[i].acc_id}" data-des-id="${employeeData[i].des_id}">Edit</button></td>
+                                            <td><button class="delete-btn" data-id="${employeeData[i].emp_id}">Delete</button></td>
+                                        </tr>`;
+                            }
+                            $('#employee-data').html(html);
+                            totalRecords = response.total_records;
+                            var totalPages = response.total_pages;
+                            if(currentPage<=totalPages){
+                            $('#page-info').text(`Page ${currentPage} of ${totalPages}`);
+
+                            }
+                            $('.delete-btn').click(function() {
+                                console.log("del");
+                                var delId = $(this).data('id');
+                                deleteEmployee(delId);
+                                fetchData(currentPage, pageSize);
+                            });
+                            $('.edit-btn').click(function() {
+                                console.log("edit");
+                                var empId = $(this).data('id');
+                                var accId = $(this).data('acc-id');
+                                var desId = $(this).data('des-id');
+                                // editEmployee(empId, accId, desId); 
+                                window.location.href = '/empId/' + empId + '/accId/'+ accId + '/desId/'+ desId;
+                            
+                            });
+                        },
+
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+                fetchData(currentPage, pageSize);
+
+                
+                $('#prev-btn').click(function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        fetchData(currentPage, pageSize);
+                    }
+                });
+
+                $('#next-btn').click(function() {
+                    var totalPages = Math.ceil(totalRecords / pageSize);
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        fetchData(currentPage, pageSize);
+                    }
+                });
+
+                $('#page-size-select').change(function() {
+                    pageSize = $(this).val();
+                    fetchData(1, pageSize);
+                });
+            });
+        </script>
+    </body>
+    </html>

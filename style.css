@@ -1,0 +1,92 @@
+span{
+    color: red;
+    /* margin-left: 50px; */
+}
+
+#form {
+    margin: 20px auto; 
+    width: 400px; 
+}
+
+#accounts_dropdown {
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+}
+
+#accounts_dropdown_err {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#closeDes{
+    color: black;
+}
+
+
+button {
+    padding: 6px 12px;
+    font-size: 16px;
+    background-color: #555755;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #949995;
+}
+
+#addAccount {
+    margin-top: 10px;
+}
+
+#submitForm {
+    margin-top: 20px;
+}
+
+
+input[type="text"], select {
+    padding: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+#employeeForm {
+    margin: 100px auto; 
+    width: 700px;
+}
+
+#close{
+    color: black;
+    font-size: 24px;
+}
+
+/* table-style.css */
+#employee-table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+  }
+  
+  #employee-table th, #employee-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #employee-table th {
+    background-color: #f2f2f2;
+  }
+
+  #pagination-controls{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    /* justify-content: space-between; */
+  }
+  .edit-btn{
+    margin-right: 10px;
+  }

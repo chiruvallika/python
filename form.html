@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/formValidation.js"></script>
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <style>
+         .des_popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+        }
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .acc_popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+        }
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+        }
+        /* .employee_form {
+            display: none;
+        } */
+        #empform{
+            margin-left: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="mainForm" method="post" action="/employeeForm">
+        <div id="form">
+            <h1>Select account: </h1>
+            <select id="accounts_dropdown">
+                <option value="">Select account</option>
+                {% for acc_id,acc_name in accounts %}
+                    <option value="{{ acc_id }}">{{ acc_name }}</option>
+                {% endfor %}
+            </select>
+            <!-- <select id="accounts_dropdown">
+                <option value="">Select account</option>
+                {% for acc_id,acc_name in accounts %}
+                    {% if acc_data and acc_id == acc_data[0] %}
+                        <option value="{{ acc_id }}" selected>{{ acc_name }}</option>
+                    {% else %}
+                        <option value="{{ acc_id }}">{{ acc_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select> -->
+            <input type="hidden" id="hidden_account_id" name="account_id" value="">
+            <button id="addAccount">Add account</button><br/>
+            <span id="accounts_dropdown_err"></span><br/>
+            <!-- <button type="submit" id="submitForm">Submit</button> -->
+        </div>
+    </form> 
+    <div class="acc_popup" id="popupForm">
+        <form method="post" action="/add_account" onsubmit="return accountPopupValidation()">
+            <span id="close" class="close">&times;</span>
+            <h2>Add Account</h2>
+            <label>Account name: </label>
+            <input type="text" name="acc_name" value="{{ acc_data[1] if acc_data else '' }}" id="acc_name"/><br/>
+            <span id="acc_name_err"></span><br/><br/>
+            <button type="submit" id="createAcc">Create account</button>
+        </form>
+    </div> 
+    <div class="employee_form" id="employeeForm">
+        <form action="/add_employee" method="post" onsubmit="return empFormValidation()" id="empform">
+            <span class="close">&times;</span>
+            <h2>Employee Form</h2>
+            <label>Name: </label>
+            <input type="text" name="name" value="" id="empname"/><br/>
+            <span id="emp_name_err"></span><br/>
+            <label>Phone number:</label>
+            <input type="text" name="phone_number" value="" id="phone"/><br/>
+            <span id="emp_phone_err"></span><br/>
+            <label>Select designation: </label>
+            <select id="designation_dropdown">
+                <option value="">Select designation</option>
+            </select>
+            <input type="hidden" id="hidden_acc_id" value="" name="accountID"/>
+            <input type="hidden" id="hidden_des_id" value="" name="designation_id" />
+            <button id="addDesignation">Add designation</button><br/>
+            <span id="designation_dropdown_err"></span><br/>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="des_popup" id="desForm" onsubmit="return false;">
+        <form>
+            <span class="close" id="closeDes">&times;</span>
+            <h2>Add designation</h2>
+            <label>Designation </label>
+            <input type="text" name="designation" value="" id="designation"/><br/>
+            <input type="hidden" id="account_id" value="{{ acc_id }}" name="accountID"/>
+            <input type="hidden" id="emp_name_hidden_des" name="emp_name" />
+            <input type="hidden" id="emp_phone_hidden_des" name="emp_phone" />
+            <span id="des_err"></span><br/><br/>
+            <button type="submit" id="createDes">Create designation</button>
+        </form>
+    </div>
+    
+    <script>
+
+        $(document).ready(function(){
+            $('#addAccount').on('click',function(e){
+                e.preventDefault();
+                $('.acc_popup').css('display', 'block');
+            });
+
+            $('#closeDes').click(function(){
+                $('.des_popup').fadeOut();
+            })
+
+            $('.close').on('click',function(){
+                $('.acc_popup').fadeOut();
+                $('.des_popup').fadeOut();
+                $('#mainForm').css('display','block');
+                $('#employeeForm').css('display','block');
+                var enteredValue = $('#acc_name').val();
+                $('#accounts_dropdown').val(enteredValue);
+                $('#hidden_account_id').val(enteredValue);
+            });
+            $('#accounts_dropdown').on('change', function() {
+                console.log("hii");
+                var accountID = $(this).val();
+                $('#hidden_account_id').val(accountID);
+                $('#account_id').val(accountID);
+                if (accountID) {
+                    $('#employeeForm').css('display', 'block');
+                    $.ajax({
+                    url: '/employeeForm', 
+                    type: 'POST', 
+                    data: { account_id: accountID },
+                    success: function(response) {
+                        console.log(response.designations);
+                        console.log(response.acc_id);
+                        $('#designation_dropdown').empty(); 
+                        $('#hidden_acc_id').val(response.acc_id);
+                        $('#account_id').val(response.acc_id);
+                        $('#designation_dropdown').append('<option value="">Select designation</option>');
+                        $.each(response.designations, function(index, item) {
+                            $('#designation_dropdown').append($('<option>', {
+                                value: item.des_id,
+                                text: item.designation
+                            }));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                    });
+                } else {
+                    $('#employeeForm').css('display', 'none');
+                }
+               
+            });
+            $('#designation_dropdown').on('change', function() {
+                var des_id = $(this).val();
+                $('#hidden_des_id').val(des_id);
+            });
+            $('#addDesignation').on('click',function(e){
+                e.preventDefault();
+                var des_id = $('#designation_dropdown').val()
+                $('#hidden_des_id').val(des_id);
+                var emp_name = $('#empname').val();
+                var emp_phone = $('#phone').val();
+                $('#emp_name_hidden_des').val(emp_name);
+                $('#emp_phone_hidden_des').val(emp_phone);
+                $('.des_popup').css('display','block');
+            })
+            $('#createDes').on('click',function(){
+                var validated = desPopupValidation();
+                if(validated){
+                    var enteredValue = $('#designation').val();
+                    $('#designation_dropdown').val(enteredValue);
+                    var acc_id = $('#account_id').val();
+                    var emp_name = $('#emp_name_hidden_des').val();
+                    var emp_phone = $('#emp_phone_hidden_des').val();
+                    $('.des_popup').fadeOut();
+                    $('#employeeForm').css('display', 'block');
+                    $('#mainForm').css('display','block');
+                    $.ajax({
+                        url: '/add_designation',
+                        type: 'POST',
+                        data: {
+                            designation: enteredValue,
+                            accountID: acc_id,
+                            // console.log(accountID)
+                            // emp_name: emp_name,
+                            // emp_phone: emp_phone
+                        },
+                        success: function(response) {
+                            console.log(response.designations);
+                            $('#hidden_acc_id').val(response.account_id);
+                            $('#designation_dropdown').empty();
+                            $('#designation_dropdown').append('<option value="">Select designation</option>'); 
+                            $.each(response.designations, function(index, item) {
+                                $('#designation_dropdown').append($('<option>', {
+                                    value: item.des_id,
+                                    text: item.designation
+                                }));
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(status);
+                            console.error(error); 
+                        }
+                    });
+            }
+            });
+            $('#empform').on('submit', function(e) {
+                var isValid = empFormValidation();
+                e.preventDefault();
+                if(isValid){
+                    $.ajax({
+                        url: '/add_employee', 
+                        type: 'POST',
+                        data: $('#empform').serialize(),
+                        success: function(response) {
+                            console.log(response);
+                            window.location.href = "/render_data";
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+                
+        });
+        function empFormValidation() {
+            var empname = document.getElementById('empname').value;
+            var phone = document.getElementById('phone').value;
+            var des = $('#designation_dropdown').val();
+            var isValid = true;
+            if (empname == null || empname == "") {
+                document.getElementById('emp_name_err').innerHTML = "Please enter your name.";
+                isValid = false;
+            } else if (!(isNaN(empname))) {
+                document.getElementById('emp_name_err').innerHTML = "Numericals are not allowed.";
+                isValid = false;
+            } else {
+                document.getElementById('emp_name_err').innerHTML = "";
+            }
+            if (phone == null || phone == "") {
+                document.getElementById('emp_phone_err').innerHTML = "Please enter your number.";
+                isValid = false;
+            } else if (phone.length != 10) {
+                document.getElementById('emp_phone_err').innerHTML = "Max length is 10.";
+                isValid = false;
+            } else {
+                document.getElementById('emp_phone_err').innerHTML = "";
+            }
+            if (des == "") {
+                document.getElementById('designation_dropdown_err').innerHTML = "Please select any designation if not present in list then create one.";
+                isValid = false;
+            } else {
+                document.getElementById('designation_dropdown_err').innerHTML = "";
+            }
+
+            return isValid;
+        }
+        function desPopupValidation(){
+            var des = document.getElementById('designation').value;
+            if(des == null || des == ""){
+                document.getElementById('des_err').innerHTML = "Designation cannot be null.";
+                return false;
+            }
+            return true;
+        }
+        });
+    </script>
+</body>
+</html>
